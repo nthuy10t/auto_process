@@ -1,0 +1,3 @@
+class RobotController < ApplicationController
+ 
+end
