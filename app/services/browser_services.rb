@@ -40,18 +40,19 @@ class BrowserServices
     video.click
 
     # Sleep view first video
-    sleep(rand(450..650))
+    sleep(rand(300..350))
+    quit_browser(category)
 
     # Get all video recomend and click view random
-    videos = browser.all('a div img')
-    video  = videos[rand(0...videos.size)]
-    video.click
+    # videos = browser.all('a div img')
+    # video  = videos[rand(0...videos.size)]
+    # video.click
 
-    Check timeout
-    while true
-      quit_browser(category) and return if Time.now - begin_time >= (time_out - rand(60..120))
-      sleep(120)
-    end
+    # Check timeout
+    # while true
+    #   quit_browser(category) and return if Time.now - begin_time >= (time_out - rand(60..120))
+    #   sleep(120)
+    # end
   rescue Exception
     browser.driver.quit
   end
