@@ -49,35 +49,60 @@ class BrowserServices
 
     Check timeout
     while true
-      quit_browser(category) and return if Time.now - begin_time >= (time_out)
+      quit_browser(category) and return if Time.now - begin_time >= (time_out - rand(60..120))
       sleep(120)
     end
   rescue Exception
-    quit_browser(category)
+    browser.driver.quit
   end
 
-  def action_view_from_facebook(url='https://www.facebook.com/')
+  def action_view_from_facebook(url)
     category = 'facebook'
 
-    # Open link fb
-    browser.visit(url)
-
-    # Add cookies
-    restored = add_cookies('soniphone277', 'facebook')
+    # Load cookie youtube
+    browser.visit('http://youtube.com')
+    restored = add_cookies(email, 'youtube')
     browser.driver.quit unless restored
+    sleep_step
 
-    # click play
-    # self.browser.click(:xpath, xpath)
+    # Refresh browser
+    browser.visit('http://youtube.com')
+    sleep_step
 
-    # save cookies
-    # save_cookies(email)
+    # Load cookie facebook
+    browser.visit(url)
+    sleep_step
+    restored = add_cookies('soniphone277', category)
+    browser.driver.quit unless restored
+    sleep_step
 
-    # check timeout
-    while true
-      quit_browser(category) and return if Time.now - begin_time >= self.time_out
-    end
+    # Refresh browser
+    browser.visit(url)
+    sleep_step
+
+    # Visit post page facebook
+    browser.visit('http://bit.ly/2QcXwiF')
+
+    # Click video youtube
+    browser.first('p a', text: 'https://www.youtube.com/watch?v=qwuKsyGwc2Y').click
+    sleep(5)
+
+    # Switch tab youtube
+    youtube_tab = browser.windows.last
+    browser.switch_to_window(youtube_tab)
+
+    # View youtube
+    sleep(rand(220..350))
+
+    # Save cookies facebook
+    browser.visit('https://www.facebook.com/')
+    save_cookies('soniphone277', category)
+
+    sleep_step
+    quit_browser('youtube')
+
   rescue Exception
-    quit_browser(category)
+    browser.driver.quit
   end
 
   private
@@ -85,7 +110,7 @@ class BrowserServices
   def quit_browser(category)
     browser.visit('http://youtube.com')
 
-    # Save cookies
+    # Save cookies youtube
     save_cookies(email, category)
 
     # Update record airtable
