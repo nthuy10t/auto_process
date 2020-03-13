@@ -7,7 +7,6 @@ class BrowserServices
 
   def initialize(type)
     response = get_proxy()
-    puts(response)
     airtable = init_airtable
     records_airtable = airtable.all(filter: "{last_login} = ''")
     check_airtable(records_airtable)
@@ -23,7 +22,6 @@ class BrowserServices
   def action_view_random(url='http://youtube.com')
     # Visit url
     browser.visit(url)
-    browser.driver.quit
 
     # Add cookies
     restored = add_cookies(email)
