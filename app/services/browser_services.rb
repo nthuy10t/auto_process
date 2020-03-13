@@ -32,7 +32,7 @@ class BrowserServices
 
     # Get all video home and click view random
     sleep_step
-    videos = browser.all('a img')
+    videos = browser.all('a div img')
     video  = videos[rand(0...videos.size)]
     sleep_step
     video.click
