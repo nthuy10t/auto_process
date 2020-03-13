@@ -20,12 +20,14 @@ class BrowserServices
 
   # View random videos
   def action_view_random(url='http://youtube.com')
+    category = 'youtube'
+
     # Visit url
     browser.visit(url)
 
     # Add cookies
-    restored = add_cookies(email)
-    quit_browser unless restored
+    restored = add_cookies(email, category)
+    browser.driver.quit unless restored
 
     # Refresh browser
     browser.visit(url)
@@ -47,26 +49,22 @@ class BrowserServices
 
     Check timeout
     while true
-      quit_browser and return if Time.now - begin_time >= (time_out)
+      quit_browser(category) and return if Time.now - begin_time >= (time_out)
       sleep(120)
     end
   rescue Exception
-    quit_browser
+    quit_browser(category)
   end
 
-  def action_view_from_facebook(fb_url, email)
-    # open link fb
-    # self.browser.visit()
+  def action_view_from_facebook(url='https://www.facebook.com/')
+    category = 'facebook'
 
-    # click link video
-    # element = self.browser.driver.first(:xpath, xpath)
-    # quit_browser and return unless element
+    # Open link fb
+    browser.visit(url)
 
-    # get browser url
-
-    # add cookies
-    # restored = add_cookies(url, email)
-    # quit_browser unless restored
+    # Add cookies
+    restored = add_cookies('soniphone277', 'facebook')
+    browser.driver.quit unless restored
 
     # click play
     # self.browser.click(:xpath, xpath)
@@ -76,17 +74,19 @@ class BrowserServices
 
     # check timeout
     while true
-      quit_browser and return if Time.now - begin_time >= self.time_out
+      quit_browser(category) and return if Time.now - begin_time >= self.time_out
     end
   rescue Exception
-    quit_browser
+    quit_browser(category)
   end
 
   private
 
-  def quit_browser
+  def quit_browser(category)
+    browser.visit('http://youtube.com')
+
     # Save cookies
-    save_cookies(email)
+    save_cookies(email, category)
 
     # Update record airtable
     update_airtable
@@ -94,14 +94,14 @@ class BrowserServices
     browser.driver.quit
   end
 
-  def add_cookies(email)
-    filename = "vendor/cookies/#{email}.txt"
+  def add_cookies(email, category)
+    filename = "vendor/cookies/#{category}/#{email}.txt"
     return browser.restore_cookies(Rails.root.join(filename)) if Dir[Rails.root.join(filename)].present?
     nil
   end
 
-  def save_cookies(email)
-    filename = "vendor/cookies/#{email}.txt"
+  def save_cookies(email, category)
+    filename = "vendor/cookies/#{category}/#{email}.txt"
     browser.save_cookies(Rails.root.join(filename))
   end
 
