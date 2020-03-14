@@ -92,18 +92,15 @@ class BrowserServices
     youtube_tab = browser.windows.last
     browser.switch_to_window(youtube_tab)
 
-    # Unmute video
-    browser.first('#player-control-overlay').click
-
     # View youtube
-    sleep(rand(220..350))
+    sleep(rand(220..300))
 
     # Get all video recomend and click view random
     videos = browser.all('a div img')
     video  = videos[rand(0...videos.size)]
     video.click
 
-    sleep(rand(200..300))
+    sleep(rand(120..240))
 
     # Save cookies facebook
     browser.visit('https://www.facebook.com/')

@@ -5,7 +5,7 @@ set :environment, :development
 #   rake "youtube:random"
 # end
 
-every 15.minute do # 1.minute 1.day 1.week 1.month 1.year is also supported
+every 12.minute do # 1.minute 1.day 1.week 1.month 1.year is also supported
   # the following tasks are run in parallel (not in sequence)
   rake "youtube:facebook"
 end
