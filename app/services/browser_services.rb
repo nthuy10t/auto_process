@@ -82,18 +82,28 @@ class BrowserServices
     sleep_step
 
     # Visit post page facebook
-    browser.visit('http://bit.ly/2QcXwiF')
+    browser.visit('http://bit.ly/2IP9niI')
 
     # Click video youtube
-    browser.first('p a', text: 'https://www.youtube.com/watch?v=qwuKsyGwc2Y').click
+    browser.first('p a', text: 'https://www.youtube.com/watch?v=6RledGTk5vY').click
     sleep(5)
 
     # Switch tab youtube
     youtube_tab = browser.windows.last
     browser.switch_to_window(youtube_tab)
 
+    # Unmute video
+    browser.first('#player-control-overlay').click
+
     # View youtube
     sleep(rand(220..350))
+
+    # Get all video recomend and click view random
+    videos = browser.all('a div img')
+    video  = videos[rand(0...videos.size)]
+    video.click
+
+    sleep(rand(200..300))
 
     # Save cookies facebook
     browser.visit('https://www.facebook.com/')
