@@ -4,7 +4,7 @@ class RunProcessViewFacebookWorker
 
   def perform
     type = 'mobile'
-    browser = BrowserServices.new(type)
+    browser = YoutubeServices.new(type)
     browser.action_view_from_facebook('https://www.facebook.com/')
   end
 end

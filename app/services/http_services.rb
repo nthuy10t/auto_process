@@ -1,6 +1,5 @@
 module HttpServices
-  def get_proxy(key=nil)
-    key ||= ENV['KEY_PROXY']
+  def get_proxy(key)
     url = "proxy.tinsoftsv.com"
     http = Net::HTTP.new(url)
     response = http.get("/api/changeProxy.php?key=#{key}&location=0")

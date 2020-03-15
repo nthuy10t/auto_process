@@ -224,6 +224,7 @@ DEPENDENCIES
   capybara-sessionkeeper (= 0.2.0)
   coffee-rails (~> 4.2)
   dotenv
+  faraday
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   logger

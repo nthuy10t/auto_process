@@ -1,12 +1,12 @@
 require 'capybara'
-class BrowserServices
+class YoutubeServices
   include BrowserInit
   include HttpServices
 
   attr_accessor :browser, :time_out, :begin_time, :airtable, :gmail, :email
 
   def initialize(type)
-    response = get_proxy()
+    response = get_proxy('pt4wdBFI1yzYqg4FDke8zzxlYrBhuRoC')
     airtable = init_airtable
     records_airtable = airtable.all(filter: "{last_login} = ''")
     check_airtable(records_airtable)
