@@ -46,7 +46,7 @@ class GmailServices
         if captcha.present?
           input_captcha(mail, captcha)
           sleep_step
-          if browser.has_content?('Chào mừng')
+          unless browser.has_content?('Xác nhận email khôi phục của bạn')
             sleep_step
             result = bypass_captcha
             id     = result.last if result.first == 'OK'
@@ -57,6 +57,8 @@ class GmailServices
               if captcha.present?
                 input_captcha(mail, captcha)
                 unless browser.has_content?('Chào mừng')
+                  verify_sub_mail(mail)
+                  sleep_step
                   save_cookies(mail)
                 end
               end

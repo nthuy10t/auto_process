@@ -70,41 +70,43 @@ class YoutubeServices
     browser.visit('http://youtube.com')
     sleep_step
 
+    browser.visit('https://www.youtube.com/watch?v=6RledGTk5vY')
+
     # Load cookie facebook
-    browser.visit(url)
-    sleep_step
-    restored = add_cookies('soniphone277', category)
-    browser.driver.quit unless restored
-    sleep_step
+    # browser.visit(url)
+    # sleep_step
+    # restored = add_cookies('soniphone277', category)
+    # browser.driver.quit unless restored
+    # sleep_step
 
     # Refresh browser
-    browser.visit(url)
-    sleep_step
+    # browser.visit(url)
+    # sleep_step
 
     # Visit post page facebook
-    browser.visit('http://bit.ly/2IP9niI')
+    # browser.visit('http://bit.ly/2IP9niI')
 
     # Click video youtube
-    browser.first('p a', text: 'https://www.youtube.com/watch?v=6RledGTk5vY').click
-    sleep(5)
+    # browser.first('p a', text: 'https://www.youtube.com/watch?v=6RledGTk5vY').click
+    # sleep(5)
 
     # Switch tab youtube
     youtube_tab = browser.windows.last
     browser.switch_to_window(youtube_tab)
 
     # View youtube
-    sleep(rand(220..300))
+    sleep(rand(230..299))
 
     # Get all video recomend and click view random
     videos = browser.all('a div img')
     video  = videos[rand(0...videos.size)]
     video.click
 
-    sleep(rand(120..240))
+    sleep(rand(120..180))
 
     # Save cookies facebook
-    browser.visit('https://www.facebook.com/')
-    save_cookies('soniphone277', category)
+    # browser.visit('https://www.facebook.com/')
+    # save_cookies('soniphone277', category)
 
     sleep_step
     quit_browser('youtube')
