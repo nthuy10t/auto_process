@@ -27,11 +27,11 @@ class GmailServices
     # Login mail
     browser.first('input[type="email"]', visible: false).set(mail['name'])
     sleep_step
-    browser.first('#identifierNext').click
+    browser.first('#identifierNext', visible: false).click
     sleep_step
     browser.first('input[type="password"]', visible: false).set(mail['pass'])
     sleep_step
-    browser.first('#passwordNext').click
+    browser.first('#passwordNext', visible: false).click
     sleep_step
     # By pass captcha
     if browser.has_content?('Chào mừng')
@@ -131,6 +131,7 @@ class GmailServices
     browser.first('input[type="email"]', visible: false).set(mail['submail'])
     sleep_step
     browser.first('span', text: 'Tiếp theo', visible: false).click
+    sleep_step
   end
 
   def save_cookies(mail)
@@ -148,7 +149,7 @@ class GmailServices
   end
 
   def sleep_step
-    sleep(rand(2..5))
+    sleep(rand(6..8))
   end
 
   def img64(path)

@@ -5,8 +5,8 @@ class YoutubeServices
 
   attr_accessor :browser, :time_out, :begin_time, :airtable, :gmail, :email
 
-  def initialize(type)
-    response = get_proxy('pt4wdBFI1yzYqg4FDke8zzxlYrBhuRoC')
+  def initialize(type, key)
+    response = get_proxy(key)
     airtable = init_airtable
     records_airtable = airtable.all(filter: "{last_login} = ''")
     check_airtable(records_airtable)
@@ -70,7 +70,10 @@ class YoutubeServices
     browser.visit('http://youtube.com')
     sleep_step
 
-    browser.visit('https://www.youtube.com/watch?v=6RledGTk5vY')
+    search_video
+
+    sleep(rand(120..200))
+
 
     # Load cookie facebook
     # browser.visit(url)
@@ -91,18 +94,25 @@ class YoutubeServices
     # sleep(5)
 
     # Switch tab youtube
-    youtube_tab = browser.windows.last
-    browser.switch_to_window(youtube_tab)
+    # youtube_tab = browser.windows.last
+    # browser.switch_to_window(youtube_tab)
+
+    browser.visit('https://www.youtube.com/watch?v=6RledGTk5vY')
+
+    sleep_step
+    browser.first('.ytp-unmute-icon').click if browser.has_css?('.ytp-unmute-icon')
+    sleep_step
+    browser.first('button[aria-label="Play video"]').click if browser.has_css?('button[aria-label="Play video"]')
 
     # View youtube
     sleep(rand(230..299))
 
     # Get all video recomend and click view random
-    videos = browser.all('a div img')
-    video  = videos[rand(0...videos.size)]
-    video.click
+    # videos = browser.all('a div img')
+    # video  = videos[rand(0...videos.size)]
+    # video.click
 
-    sleep(rand(120..180))
+    # sleep(rand(120..180))
 
     # Save cookies facebook
     # browser.visit('https://www.facebook.com/')
@@ -159,7 +169,21 @@ class YoutubeServices
     end
   end
 
+  def search_video
+    keywords = ['tin tức hôm nay', 'tin tức 24/7', 'dịch corona', 'corona vn', 'thời sự',
+      'bản tin 24/7', 'vtv24']
+    browser.first('button[aria-label="Search YouTube"]').click
+    browser.first('input[name="search"]').set(keywords[rand(0...keywords.size)])
+    sleep_step
+    browser.first('input[name="search"]').send_keys :enter
+    sleep_step
+    videos = browser.all('a div img')
+    video  = videos[rand(0...videos.size)]
+    sleep(rand(5..7))
+    video.click
+  end
+
   def sleep_step
-    sleep(rand(2..5))
+    sleep(rand(3..5))
   end
 end
