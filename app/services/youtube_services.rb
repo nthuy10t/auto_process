@@ -1,12 +1,12 @@
 require 'capybara'
-class BrowserServices
+class YoutubeServices
   include BrowserInit
   include HttpServices
 
   attr_accessor :browser, :time_out, :begin_time, :airtable, :gmail, :email
 
-  def initialize(type)
-    response = get_proxy()
+  def initialize(type, key)
+    response = get_proxy(key)
     airtable = init_airtable
     records_airtable = airtable.all(filter: "{last_login} = ''")
     check_airtable(records_airtable)
@@ -70,41 +70,53 @@ class BrowserServices
     browser.visit('http://youtube.com')
     sleep_step
 
+    search_video
+
+    sleep(rand(120..200))
+
+
     # Load cookie facebook
-    browser.visit(url)
-    sleep_step
-    restored = add_cookies('soniphone277', category)
-    browser.driver.quit unless restored
-    sleep_step
+    # browser.visit(url)
+    # sleep_step
+    # restored = add_cookies('soniphone277', category)
+    # browser.driver.quit unless restored
+    # sleep_step
 
     # Refresh browser
-    browser.visit(url)
-    sleep_step
+    # browser.visit(url)
+    # sleep_step
 
     # Visit post page facebook
-    browser.visit('http://bit.ly/2IP9niI')
+    # browser.visit('http://bit.ly/2IP9niI')
 
     # Click video youtube
-    browser.first('p a', text: 'https://www.youtube.com/watch?v=6RledGTk5vY').click
-    sleep(5)
+    # browser.first('p a', text: 'https://www.youtube.com/watch?v=6RledGTk5vY').click
+    # sleep(5)
 
     # Switch tab youtube
-    youtube_tab = browser.windows.last
-    browser.switch_to_window(youtube_tab)
+    # youtube_tab = browser.windows.last
+    # browser.switch_to_window(youtube_tab)
+
+    browser.visit('https://www.youtube.com/watch?v=6RledGTk5vY')
+
+    sleep_step
+    browser.first('.ytp-unmute-icon').click if browser.has_css?('.ytp-unmute-icon')
+    sleep_step
+    browser.first('button[aria-label="Play video"]').click if browser.has_css?('button[aria-label="Play video"]')
 
     # View youtube
-    sleep(rand(220..300))
+    sleep(rand(230..299))
 
     # Get all video recomend and click view random
-    videos = browser.all('a div img')
-    video  = videos[rand(0...videos.size)]
-    video.click
+    # videos = browser.all('a div img')
+    # video  = videos[rand(0...videos.size)]
+    # video.click
 
-    sleep(rand(120..240))
+    # sleep(rand(120..180))
 
     # Save cookies facebook
-    browser.visit('https://www.facebook.com/')
-    save_cookies('soniphone277', category)
+    # browser.visit('https://www.facebook.com/')
+    # save_cookies('soniphone277', category)
 
     sleep_step
     quit_browser('youtube')
@@ -157,7 +169,21 @@ class BrowserServices
     end
   end
 
+  def search_video
+    keywords = ['tin tức hôm nay', 'tin tức 24/7', 'dịch corona', 'corona vn', 'thời sự',
+      'bản tin 24/7', 'vtv24']
+    browser.first('button[aria-label="Search YouTube"]').click
+    browser.first('input[name="search"]').set(keywords[rand(0...keywords.size)])
+    sleep_step
+    browser.first('input[name="search"]').send_keys :enter
+    sleep_step
+    videos = browser.all('a div img')
+    video  = videos[rand(0...videos.size)]
+    sleep(rand(5..7))
+    video.click
+  end
+
   def sleep_step
-    sleep(rand(2..5))
+    sleep(rand(3..5))
   end
 end
